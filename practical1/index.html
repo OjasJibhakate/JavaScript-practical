@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Integration Demo</title>
+    
+    <!-- INTERNAL JAVASCRIPT -->
+    <!-- Written directly inside <script> tags within the HTML file -->
+    <script>
+        // Wait for the HTML document to fully load before running
+        document.addEventListener("DOMContentLoaded", () => {
+            const user = {
+                name: "Ojas Jibhakate",
+                location: "Nagpur",
+                clg: "SIT Nagpur",
+                PRN: "24070521028"
+            };
+            
+            // Display user info on the page
+            const userInfoElement = document.getElementById("user-info");
+            userInfoElement.innerHTML = `<strong>Name:</strong> ${user.name} <br> <strong>Location:</strong> ${user.location} <br> <strong>Status:</strong> ${user.status}`;
+            
+            console.log("Internal JS: User info loaded into the DOM.");
+        });
+    </script>
+</head>
+<body style="font-family: sans-serif; padding: 20px;">
+
+    <h1 id="welcome-message">Loading welcome message...</h1>
+    
+    <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        <h2>User Profile</h2>
+        <p id="user-info">Loading user info...</p>
+    </div>
+
+    <!-- INLINE JAVASCRIPT -->
+    <!-- Written directly inside an HTML element's attribute (like onclick) -->
+    <button onclick="console.warn('Inline JS: You clicked the warning button!'); alert('Button clicked!');">
+        Click for Inline Alert & Warning
+    </button>
+
+    <!-- EXTERNAL JAVASCRIPT -->
+    <!-- Linked via the src attribute. Best practice is placing it at the end of the body -->
+    <script src="script.js"></script>
+</body>
+</html>
