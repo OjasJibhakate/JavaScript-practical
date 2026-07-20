@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grocery Paradise</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+    header {
+      background: linear-gradient(90deg, #2e7d32, #66bb6a, #c8e6c9);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px;
+    }
+    .product {
+      border: 1px solid #ddd;
+      background: #fff;
+      margin: 15px;
+      padding: 15px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 8px;
+    }
+    .product h3 {
+      color: #2e7d32;
+    }
+    .product button {
+      background: #2e7d32;
+      border: none;
+      padding: 8px 12px;
+      margin-top: 10px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+    .product button:hover {
+      background: #388e3c;
+    }
+    #bill {
+      background: #fff;
+      margin: 30px auto;
+      padding: 20px;
+      width: 700px;
+      border: 2px solid #4CAF50;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      border-radius: 8px;
+    }
+    #bill h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #2e7d32;
+      font-size: 24px;
+    }
+    #bill table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #bill th, #bill td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    #total {
+      font-weight: bold;
+      color: red; /* Total in red */
+    }
+    #gst {
+      font-weight: bold;
+      color: yellow; /* GST in yellow */
+      background-color: #333;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    #grandTotal {
+      font-weight: bold;
+      color: blue; /* Grand total in blue */
+      font-size: 20px;
+    }
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      border-top: 2px dashed #333;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>Grocery Paradise</header>
+
+  <!-- Customer Name Input -->
+  <div style="text-align:center; margin:20px;">
+    <label>Enter Customer Name: 
+      <input type="text" id="customerName" placeholder="Customer Name">
+    </label>
+  </div>
+
+  <!-- Grocery Items -->
+  <div class="container">
+    <div class="product">
+      <h3>Rice (1kg)</h3>
+      <p>Price: ₹80</p>
+      <label>Qty: <input type="number" id="qtyRice" value="1" min="1"></label><br>
+      <button onclick="addToCart('Rice', 80, document.getElementById('qtyRice').value)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <h3>Wheat Flour (1kg)</h3>
+      <p>Price: ₹60</p>
+      <label>Qty: <input type="number" id="qtyWheat" value="1" min="1"></label><br>
+      <button onclick="addToCart('Wheat Flour', 60, document.getElementById('qtyWheat').value)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <h3>Milk (1L)</h3>
+      <p>Price: ₹50</p>
+      <label>Qty: <input type="number" id="qtyMilk" value="1" min="1"></label><br>
+      <button onclick="addToCart('Milk', 50, document.getElementById('qtyMilk').value)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <h3>Eggs (12 pcs)</h3>
+      <p>Price: ₹70</p>
+      <label>Qty: <input type="number" id="qtyEggs" value="1" min="1"></label><br>
+      <button onclick="addToCart('Eggs', 70, document.getElementById('qtyEggs').value)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <h3>Vegetables (1kg)</h3>
+      <p>Price: ₹100</p>
+      <label>Qty: <input type="number" id="qtyVeg" value="1" min="1"></label><br>
+      <button onclick="addToCart('Vegetables', 100, document.getElementById('qtyVeg').value)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <h3>Fruits (1kg)</h3>
+      <p>Price: ₹120</p>
+      <label>Qty: <input type="number" id="qtyFruit" value="1" min="1"></label><br>
+      <button onclick="addToCart('Fruits', 120, document.getElementById('qtyFruit').value)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Bill Section -->
+  <div id="bill">
+    <h2>Bill Details</h2>
+    <p id="customerLine" style="text-align:center; font-weight:bold;"></p>
+    <table id="billTable">
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+      </tr>
+    </table>
+    <p id="total">Total: ₹0</p>
+    <p id="gst">GST (1.8%): ₹0</p>
+    <p id="grandTotal">Grand Total: ₹0</p>
+    <div class="footer" id="footerMessage"></div>
+  </div>
+
+  <script>
+    let total = 0;
+
+    function addToCart(item, price, qty) {
+      qty = parseInt(qty);
+      let subtotal = price * qty;
+
+      // Add row to bill table
+      let table = document.getElementById("billTable");
+      let row = table.insertRow();
+      row.insertCell(0).textContent = item;
+      row.insertCell(1).textContent = qty;
+      row.insertCell(2).textContent = "₹" + price;
+      row.insertCell(3).textContent = "₹" + subtotal;
+
+      // Update totals
+      total += subtotal;
+      let gst = total * 0.018;
+      let grandTotal = total + gst;
+
+      document.getElementById("total").textContent = "Total: ₹" + total.toFixed(2);
+      document.getElementById("gst").textContent = "GST (1.8%): ₹" + gst.toFixed(2);
+      document.getElementById("grandTotal").textContent = "Grand Total: ₹" + grandTotal.toFixed(2);
+
+      // Show customer name and thank you message
+      let name = document.getElementById("customerName").value;
+      if(name.trim() !== "") {
+        document.getElementById("customerLine").textContent = "Customer Name: " + name;
+        document.getElementById("footerMessage").innerHTML = "<p><b>Thank you " + name + " for shopping with us!</b></p><p>Visit Again</p>";
+      }
+    }
+  </script>
+</body>
+</html>
