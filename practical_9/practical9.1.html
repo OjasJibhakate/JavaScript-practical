@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule Planner – Seminar Timetable</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      padding: 30px 16px;
+      color: #1a1a2e;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    .table-wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    thead th {
+      background: #2c3e50;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    thead th.seminar {
+      background: #1a5276;
+      font-size: 1.05rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Day column */
+    td.day {
+      font-weight: 600;
+      background: #eaf2f8;
+      vertical-align: middle;
+    }
+
+    /* Time cells – matching the colours from the image */
+    .begin-yellow { background: #f9e79f; }
+    .end-purple   { background: #d2b4de; }
+    .begin-yellow2 { background: #f9e79f; }
+    .end-yellow   { background: #f9e79f; }
+    .begin-green  { background: #abebc6; }
+    .end-green    { background: #abebc6; }
+    .end-purple2  { background: #d2b4de; }
+
+    /* Topic cells */
+    td.topic {
+      text-align: left;
+      padding-left: 16px;
+    }
+
+    /* Clickable rows */
+    tbody tr {
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    tbody tr:hover {
+      filter: brightness(0.97);
+      outline: 2px solid #3498db;
+      outline-offset: -2px;
+    }
+    tbody tr:active {
+      transform: scale(0.995);
+    }
+
+    .hint {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Seminar Schedule Planner</h1>
+  <p class="subtitle">Click any row to view full details in an Alert Box</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">Day</th>
+          <th colspan="2" class="seminar">Seminar</th>
+        </tr>
+        <tr>
+          <th>Schedule</th>
+          <th>Topic</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>Begin &nbsp;|&nbsp; End</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Monday -->
+        <tr onclick="showAlert('Monday', '8:00 a.m.', '5:00 p.m.', 'Introduction to XML\nValidity: DTD and Relax NG')">
+          <td class="day" rowspan="1">Monday</td>
+          <td>
+            <span class="begin-yellow" style="padding:4px 8px;border-radius:4px;">8:00 a.m.</span>
+            &nbsp;–&nbsp;
+            <span class="end-purple" style="padding:4px 8px;border-radius:4px;">5:00 p.m.</span>
+          </td>
+          <td class="topic">
+            Introduction to XML<br>
+            <small style="color:#555;">Validity: DTD and Relax NG</small>
+          </td>
+        </tr>
+
+        <!-- Tuesday – XPath -->
+        <tr onclick="showAlert('Tuesday', '8:00 a.m.', '11:00 a.m.', 'XPath')">
+          <td class="day" rowspan="3">Tuesday</td>
+          <td>
+            <span class="begin-yellow2" style="padding:4px 8px;border-radius:4px;">8:00 a.m.</span>
+            &nbsp;–&nbsp;
+            <span class="end-yellow" style="padding:4px 8px;border-radius:4px;">11:00 a.m.</span>
+          </td>
+          <td class="topic">XPath</td>
+        </tr>
+
+        <!-- Tuesday – middle slot (no topic shown in image, treated as break / empty) -->
+        <tr onclick="showAlert('Tuesday', '11:00 a.m.', '2:00 p.m.', 'Break / Free Slot')">
+          <td>
+            <span class="begin-green" style="padding:4px 8px;border-radius:4px;">11:00 a.m.</span>
+            &nbsp;–&nbsp;
+            <span class="end-green" style="padding:4px 8px;border-radius:4px;">2:00 p.m.</span>
+          </td>
+          <td class="topic" style="color:#888;font-style:italic;">—</td>
+        </tr>
+
+        <!-- Tuesday – XSL Transformations -->
+        <tr onclick="showAlert('Tuesday', '2:00 p.m.', '5:00 p.m.', 'XSL Transformations')">
+          <td>
+            <span class="begin-green" style="padding:4px 8px;border-radius:4px;">2:00 p.m.</span>
+            &nbsp;–&nbsp;
+            <span class="end-purple2" style="padding:4px 8px;border-radius:4px;">5:00 p.m.</span>
+          </td>
+          <td class="topic">XSL Transformations</td>
+        </tr>
+
+        <!-- Wednesday -->
+        <tr onclick="showAlert('Wednesday', '8:00 a.m.', '12:00 p.m.', 'XSL Formatting Objects')">
+          <td class="day">Wednesday</td>
+          <td>
+            <span class="begin-yellow" style="padding:4px 8px;border-radius:4px;">8:00 a.m.</span>
+            &nbsp;–&nbsp;
+            <span class="end-green" style="padding:4px 8px;border-radius:4px;">12:00 p.m.</span>
+          </td>
+          <td class="topic">XSL Formatting Objects</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="hint">💡 Click on any row to see the schedule details in an alert box.</p>
+
+  <footer>Schedule Planner &mdash; Click Event with alert()</footer>
+
+  <script>
+    /**
+     * Shows an alert box with the schedule details
+     * Called on click of each table row
+     */
+    function showAlert(day, begin, end, topic) {
+      const message =
+        "📅 Seminar Schedule Details\n" +
+        "─────────────────────────\n" +
+        "Day   : " + day + "\n" +
+        "Begin : " + begin + "\n" +
+        "End   : " + end + "\n" +
+        "Topic : " + topic;
+
+      alert(message);
+    }
+  </script>
+</body>
+</html>
