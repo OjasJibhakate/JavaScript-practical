@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details - Regex Assignment</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #1a365d;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+        textarea {
+            width: 100%;
+            height: 160px;
+            padding: 12px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 15px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #3182ce;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #2b6cb0;
+        }
+        .result-box {
+            margin-top: 30px;
+            background: #edf2f7;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #3182ce;
+        }
+        .result-box h2 {
+            margin-top: 0;
+            color: #2c5282;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 10px 15px;
+            margin: 15px 0;
+        }
+        .label {
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .value {
+            color: #1a202c;
+        }
+        .valid {
+            color: #276749;
+            font-weight: 600;
+        }
+        .invalid {
+            color: #c53030;
+            font-weight: 600;
+        }
+        .section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #cbd5e0;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Details</h1>
+        
+
+        <label for="inputText">Paste the student information text here:</label>
+        <textarea id="inputText" placeholder="Example:
+Student Name: Rahul Sharma
+Roll Number: CS2023001
+Email Address: rahul.sharma@college.edu
+Phone Number: 9876543210
+Department: Computer Science
+
+Some extra text about the student...">Student Name: Sejal Lende
+Roll Number: 24070521035
+Email Address: sejal.lende.sit.edu.in@gmail.com
+Phone Number: 0123456789
+Department: Computer Science
+
+This student is currently studying in the Computer Science department.</textarea>
+
+        <button onclick="processText()">Extract & Process</button>
+
+        <div class="result-box" id="result" style="display: none;">
+            <h2>Extracted Information</h2>
+            
+            <div class="info-grid">
+                <div class="label">Student Name:</div>
+                <div class="value" id="name">—</div>
+
+                <div class="label">Roll Number:</div>
+                <div class="value" id="roll">—</div>
+
+                <div class="label">Email Address:</div>
+                <div class="value" id="email">—</div>
+
+                <div class="label">Phone Number:</div>
+                <div class="value" id="phone">—</div>
+
+                <div class="label">Department:</div>
+                <div class="value" id="dept">—</div>
+            </div>
+
+            <div class="section">
+                <strong>2. Email Validation:</strong>
+                <span id="emailStatus"></span>
+            </div>
+
+            <div class="section">
+                <strong>3. Phone Validation (exactly 10 digits):</strong>
+                <span id="phoneStatus"></span>
+            </div>
+
+            <div class="section">
+                <strong>4. Counts:</strong><br>
+                • Total words: <span id="wordCount">0</span><br>
+                • Total characters (excluding spaces): <span id="charCount">0</span>
+            </div>
+
+            <div class="section">
+                <strong>5. Entire text in lowercase:</strong>
+                <pre id="lowercaseText"></pre>
+            </div>
+
+            <div class="section">
+                <strong>6. After replacing "Computer Science" → "Information Technology":</strong>
+                <pre id="replacedText"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function processText() {
+            const text = document.getElementById('inputText').value;
+
+            // 1. Extract details using Regular Expressions
+            const nameMatch   = text.match(/Student\s*Name\s*[:\-]\s*(.+)/i);
+            const rollMatch   = text.match(/Roll\s*Number\s*[:\-]\s*(\S+)/i);
+            const emailMatch  = text.match(/Email\s*Address\s*[:\-]\s*([^\s]+)/i);
+            const phoneMatch  = text.match(/Phone\s*Number\s*[:\-]\s*(\d+)/i);
+            const deptMatch   = text.match(/Department\s*[:\-]\s*(.+)/i);
+
+            const name  = nameMatch  ? nameMatch[1].trim()  : "Not found";
+            const roll  = rollMatch  ? rollMatch[1].trim()  : "Not found";
+            const email = emailMatch ? emailMatch[1].trim() : "Not found";
+            const phone = phoneMatch ? phoneMatch[1].trim() : "Not found";
+            const dept  = deptMatch  ? deptMatch[1].trim()  : "Not found";
+
+            // Display extracted info
+            document.getElementById('name').textContent  = name;
+            document.getElementById('roll').textContent  = roll;
+            document.getElementById('email').textContent = email;
+            document.getElementById('phone').textContent = phone;
+            document.getElementById('dept').textContent  = dept;
+
+            // 2. Validate Email
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const isEmailValid = emailRegex.test(email);
+            const emailStatus = document.getElementById('emailStatus');
+            emailStatus.textContent = isEmailValid ? " Valid" : " Invalid";
+            emailStatus.className = isEmailValid ? "valid" : "invalid";
+
+            // 3. Validate Phone (exactly 10 digits)
+            const phoneRegex = /^\d{10}$/;
+            const isPhoneValid = phoneRegex.test(phone);
+            const phoneStatus = document.getElementById('phoneStatus');
+            phoneStatus.textContent = isPhoneValid ? " Valid (exactly 10 digits)" : " Invalid";
+            phoneStatus.className = isPhoneValid ? "valid" : "invalid";
+
+            // 4. Count words and characters (excluding spaces)
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+            const charCountNoSpace = text.replace(/\s/g, '').length;
+
+            document.getElementById('wordCount').textContent = words.length;
+            document.getElementById('charCount').textContent = charCountNoSpace;
+
+            // 5. Convert entire text to lowercase
+            document.getElementById('lowercaseText').textContent = text.toLowerCase();
+
+            // 6. Replace "Computer Science" with "Information Technology"
+            const replaced = text.replace(/Computer Science/gi, "Information Technology");
+            document.getElementById('replacedText').textContent = replaced;
+
+            // Show result box
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // Auto-run once when page loads (optional)
+        // processText();
+    </script>
+</body>
+</html>
