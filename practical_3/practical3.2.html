@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATM Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0F3040;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .atm-container {
+      background: #464858;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      width: 320px;
+      text-align: center;
+      color: #fff;
+    }
+    .atm-container h2 {
+      margin-bottom: 25px;
+      color: #A56F63;
+      font-weight: bold;
+    }
+    .atm-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 6px;
+      background: #0F3040;
+      color: #fff;
+      font-size: 14px;
+    }
+    .atm-container input::placeholder {
+      color: #bbb;
+    }
+    .atm-container button {
+      width: 100%;
+      padding: 12px;
+      background: #A56F63;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .atm-container button:hover {
+      background: #8c5a52;
+    }
+    .error {
+      color: #ff6b6b;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="atm-container">
+    <h2>ATM Login</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Enter Username" required>
+      <input type="password" id="password" placeholder="Enter Password" required>
+      <div id="errorMsg" class="error"></div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("errorMsg");
+
+      const hasNumber = /\d/.test(password);
+      const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+      if (password.length < 7) {
+        errorMsg.textContent = "Password should be at least 7 characters.";
+      } else if (!hasNumber) {
+        errorMsg.textContent = "Password must contain at least one numeric value.";
+      } else if (!hasSymbol) {
+        errorMsg.textContent = "Password must contain at least one symbolic character.";
+      } else {
+        errorMsg.textContent = "";
+        alert("Login successful!");
+      }
+    });
+  </script>
+</body>
+</html>
