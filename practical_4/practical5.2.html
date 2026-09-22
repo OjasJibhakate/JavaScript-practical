@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domino's Style Billing Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 40px;
+      color: #333;
+    }
+    h1 {
+      color: #d32f2f;
+      text-align: center;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 650px;
+      margin: auto;
+    }
+    select, button {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a00000;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .highlight {
+      background-color: #ffe082;
+      font-weight: bold;
+    }
+    .bill-summary {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e3f2fd;
+      border-left: 4px solid #1976d2;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍕 Domino's Style Billing Counter</h1>
+    
+    <label>Select Item:</label>
+    <select id="menuSelect">
+      <option value="Margherita Pizza|199">Margherita Pizza - ₹199</option>
+      <option value="Farmhouse Pizza|349">Farmhouse Pizza - ₹349</option>
+      <option value="Peppy Paneer Pizza|299">Peppy Paneer Pizza - ₹299</option>
+      <option value="Veg Extravaganza Pizza|399">Veg Extravaganza Pizza - ₹399</option>
+      <option value="Chicken Dominator Pizza|449">Chicken Dominator Pizza - ₹449</option>
+      <option value="Cheese Burst Burger|149">Cheese Burst Burger - ₹149</option>
+      <option value="Veggie Burger|129">Veggie Burger - ₹129</option>
+      <option value="Chocolate Shake|179">Chocolate Shake - ₹179</option>
+      <option value="Strawberry Shake|159">Strawberry Shake - ₹159</option>
+      <option value="Cold Coffee|139">Cold Coffee - ₹139</option>
+    </select>
+    
+    <button onclick="addItem()">Add Item</button>
+    <button onclick="generateBill()">Generate Bill</button>
+    
+    <table id="itemsTable">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Price (₹)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    
+    <div id="billSummary" class="bill-summary"></div>
+  </div>
+
+  <script>
+    const items = [];
+
+    function addItem() {
+      const selected = document.getElementById("menuSelect").value;
+      const [name, price] = selected.split("|");
+      items.push({ name, price: parseFloat(price) });
+      updateTable();
+    }
+
+    function updateTable() {
+      const tbody = document.querySelector("#itemsTable tbody");
+      tbody.innerHTML = "";
+      items.forEach(item => {
+        const row = `<tr><td>${item.name}</td><td>₹${item.price.toFixed(2)}</td></tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function generateBill() {
+      if (items.length === 0) {
+        alert("No items added yet!");
+        return;
+      }
+
+      const prices = items.map(item => item.price);
+      const maxPrice = Math.max(...prices);
+      const minPrice = Math.min(...prices);
+      const total = prices.reduce((sum, p) => sum + p, 0);
+
+      const maxItem = items.find(item => item.price === maxPrice);
+      const minItem = items.find(item => item.price === minPrice);
+
+      document.getElementById("billSummary").innerHTML = `
+        <strong>Total Bill:</strong> ₹${total.toFixed(2)} <br>
+        <strong>Most Expensive Item:</strong> ${maxItem.name} (₹${maxItem.price.toFixed(2)}) <br>
+        <strong>Least Expensive Item:</strong> ${minItem.name} (₹${minItem.price.toFixed(2)})
+      `;
+
+      // Highlight max and min rows
+      const rows = document.querySelectorAll("#itemsTable tbody tr");
+      rows.forEach(row => {
+        const price = parseFloat(row.cells[1].innerText.replace("₹",""));
+        row.classList.remove("highlight");
+        if (price === maxPrice || price === minPrice) {
+          row.classList.add("highlight");
+        }
+      });
+    }
+  </script>
+</body>
+</html>

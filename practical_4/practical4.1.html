@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palindrome Checker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #ffcc70;
+      text-shadow: 2px 2px 5px #000;
+    }
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      width: 70%;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #ffcc70;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ffa500;
+      transform: scale(1.05);
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .palindrome {
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+    }
+    .not-palindrome {
+      color: #ff4d4d;
+      text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff4d4d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Palindrome Checker ✨</h1>
+    <input type="text" id="textInput" placeholder="Enter a word or phrase">
+    <br>
+    <button onclick="checkPalindrome()">Check</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function checkPalindrome() {
+      const text = document.getElementById("textInput").value.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const reversed = text.split('').reverse().join('');
+      const resultDiv = document.getElementById("result");
+
+      if (text === "") {
+        resultDiv.innerHTML = "⚠️ Please enter some text!";
+        resultDiv.className = "result not-palindrome";
+        return;
+      }
+
+      if (text === reversed) {
+        resultDiv.innerHTML = "✅ It's a Palindrome!";
+        resultDiv.className = "result palindrome";
+      } else {
+        resultDiv.innerHTML = "❌ Not a Palindrome!";
+        resultDiv.className = "result not-palindrome";
+      }
+    }
+  </script>
+</body>
+</html>
