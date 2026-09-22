@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 50%, #f0f9ff 100%);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 860px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 50px;
+            box-shadow: 0 20px 50px rgba(13, 148, 136, 0.12);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .form-header h2 {
+            font-size: 28px;
+            color: #0f766e;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.1px;
+            color: #0d9488;
+            margin: 24px 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #ccfbf1;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 20px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .required {
+            color: #e11d48;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        input, select {
+            width: 100%;
+            height: 44px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0 14px 0 36px;
+            background: #f8fafc;
+            font-size: 13.5px;
+            color: #1e293b;
+            transition: 0.2s;
+        }
+
+        select {
+            padding-left: 12px;
+            cursor: pointer;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #14b8a6;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+        }
+
+        .birthday {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr 1fr;
+            gap: 12px;
+        }
+
+        .input-error {
+            border-color: #e11d48 !important;
+            background: #fef2f2 !important;
+        }
+
+        .input-success {
+            border-color: #10b981 !important;
+        }
+
+        .error-text {
+            min-height: 15px;
+            margin-top: 4px;
+            font-size: 11.5px;
+            color: #e11d48;
+            font-weight: 500;
+        }
+
+        .terms {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 22px;
+            padding: 13px 16px;
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 10px;
+        }
+
+        .terms input {
+            width: 16px;
+            height: 16px;
+            accent-color: #0d9488;
+            cursor: pointer;
+        }
+
+        .terms label {
+            margin: 0;
+            font-size: 13px;
+            color: #475569;
+            cursor: pointer;
+        }
+
+        .terms-error {
+            border-color: #e11d48 !important;
+            background: #fef2f2 !important;
+        }
+
+        button {
+            width: 100%;
+            height: 48px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.25);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(13, 148, 136, 0.3);
+        }
+
+        .designer {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 12.5px;
+            color: #64748b;
+        }
+
+        .designer strong {
+            color: #0d9488;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .form-container {
+                padding: 30px 22px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full {
+                grid-column: auto;
+            }
+            .birthday {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Create Account</h2>
+            <p>Fill your information below</p>
+        </div>
+
+        <form id="registrationForm">
+            <div class="section-title">Personal Information</div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>First Name <span class="required">*</span></label>
+                    <div class="input-box">
+                        <span class="input-icon">◉</span>
+                        <input type="text" id="firstname" placeholder="First name">
+                    </div>
+                    <p class="error-text" id="firstnameError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name <span class="required">*</span></label>
+                    <div class="input-box">
+                        <span class="input-icon">◉</span>
+                        <input type="text" id="lastname" placeholder="Last name">
+                    </div>
+                    <p class="error-text" id="lastnameError"></p>
+                </div>
+
+                <div class="form-group full">
+                    <label>Birthday <span class="required">*</span></label>
+                    <div class="birthday">
+                        <select id="day"><option value="">Day</option></select>
+                        <select id="month"><option value="">Month</option></select>
+                        <select id="year"><option value="">Year</option></select>
+                    </div>
+                    <p class="error-text" id="birthdayError"></p>
+                </div>
+            </div>
+
+            <div class="section-title">Account Details</div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Username <span class="required">*</span></label>
+                    <div class="input-box">
+                        <span class="input-icon">@</span>
+                        <input type="text" id="username" placeholder="Username">
+                    </div>
+                    <p class="error-text" id="usernameError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>E-mail <span class="required">*</span></label>
+                    <div class="input-box">
+                        <span class="input-icon">✉</span>
+                        <input type="text" id="email" placeholder="name@email.com">
+                    </div>
+                    <p class="error-text" id="emailError"></p>
+                </div>
+
+                <div class="form-group full">
+                    <label>Website <span class="required">*</span></label>
+                    <div class="input-box">
+                        <span class="input-icon">⌘</span>
+                        <input type="text" id="website" placeholder="https://example.com">
+                    </div>
+                    <p class="error-text" id="websiteError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Password <span class="required">*</span></label>
+                    <div class="input-box">
+                        <span class="input-icon">●</span>
+                        <input type="password" id="password" placeholder="Password">
+                    </div>
+                    <p class="error-text" id="passwordError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Re-password <span class="required">*</span></label>
+                    <div class="input-box">
+                        <span class="input-icon">●</span>
+                        <input type="password" id="repassword" placeholder="Confirm password">
+                    </div>
+                    <p class="error-text" id="repasswordError"></p>
+                </div>
+            </div>
+
+            <div class="terms" id="termsBox">
+                <input type="checkbox" id="terms">
+                <label for="terms">I agree to the terms & conditions</label>
+            </div>
+            <p class="error-text" id="termsError"></p>
+
+            <button type="submit">Create My Account ✦</button>
+        </form>
+
+        <div class="designer">
+            Made by <strong>Sejal Lende</strong> • 24070521035
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("registrationForm");
+        const firstname = document.getElementById("firstname");
+        const lastname = document.getElementById("lastname");
+        const username = document.getElementById("username");
+        const email = document.getElementById("email");
+        const website = document.getElementById("website");
+        const password = document.getElementById("password");
+        const repassword = document.getElementById("repassword");
+        const terms = document.getElementById("terms");
+        const termsBox = document.getElementById("termsBox");
+        const day = document.getElementById("day");
+        const month = document.getElementById("month");
+        const year = document.getElementById("year");
+
+        for (let i = 1; i <= 31; i++) {
+            let option = document.createElement("option");
+            option.value = i;
+            option.textContent = i;
+            day.appendChild(option);
+        }
+
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        months.forEach(m => {
+            let option = document.createElement("option");
+            option.value = m;
+            option.textContent = m;
+            month.appendChild(option);
+        });
+
+        for (let i = 2026; i >= 1950; i--) {
+            let option = document.createElement("option");
+            option.value = i;
+            option.textContent = i;
+            year.appendChild(option);
+        }
+
+        function showError(input, message) {
+            input.classList.add("input-error");
+            input.classList.remove("input-success");
+            const el = document.getElementById(input.id + "Error");
+            if (el) el.textContent = message;
+        }
+
+        function showSuccess(input) {
+            input.classList.remove("input-error");
+            input.classList.add("input-success");
+            const el = document.getElementById(input.id + "Error");
+            if (el) el.textContent = "";
+        }
+
+        function validatePassword() {
+            const value = password.value;
+            if (!value) { showError(password, "Password is required."); return false; }
+            if (value.length < 8) { showError(password, "Password must contain at least 8 characters."); return false; }
+            if (!/[A-Z]/.test(value)) { showError(password, "Add at least one uppercase letter."); return false; }
+            if (!/[a-z]/.test(value)) { showError(password, "Add at least one lowercase letter."); return false; }
+            if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) { showError(password, "Add at least one special symbol."); return false; }
+            showSuccess(password);
+            return true;
+        }
+
+        function validateRepassword() {
+            if (!repassword.value) { showError(repassword, "Please confirm your password."); return false; }
+            if (password.value !== repassword.value) { showError(repassword, "Passwords do not match."); return false; }
+            showSuccess(repassword);
+            return true;
+        }
+
+        function validateBirthday() {
+            const error = document.getElementById("birthdayError");
+            if (!day.value || !month.value || !year.value) {
+                day.classList.add("input-error");
+                month.classList.add("input-error");
+                year.classList.add("input-error");
+                error.textContent = "Please select your complete birthday.";
+                return false;
+            }
+            day.classList.remove("input-error");
+            month.classList.remove("input-error");
+            year.classList.remove("input-error");
+            error.textContent = "";
+            return true;
+        }
+
+        firstname.addEventListener("input", () => {
+            firstname.value.trim() ? showSuccess(firstname) : showError(firstname, "First name is required.");
+        });
+        lastname.addEventListener("input", () => {
+            lastname.value.trim() ? showSuccess(lastname) : showError(lastname, "Last name is required.");
+        });
+        username.addEventListener("input", () => {
+            if (!username.value.trim()) showError(username, "Username is required.");
+            else if (username.value.trim().length < 4) showError(username, "Username must contain at least 4 characters.");
+            else showSuccess(username);
+        });
+        email.addEventListener("input", () => {
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim()) showError(email, "Email address is required.");
+            else if (!pattern.test(email.value.trim())) showError(email, "Enter a valid email address.");
+            else showSuccess(email);
+        });
+        website.addEventListener("input", () => {
+            const pattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/.*)?$/;
+            if (!website.value.trim()) showError(website, "Website is required.");
+            else if (!pattern.test(website.value.trim())) showError(website, "Enter a valid website address.");
+            else showSuccess(website);
+        });
+        password.addEventListener("input", () => {
+            validatePassword();
+            if (repassword.value) validateRepassword();
+        });
+        repassword.addEventListener("input", validateRepassword);
+        day.addEventListener("change", validateBirthday);
+        month.addEventListener("change", validateBirthday);
+        year.addEventListener("change", validateBirthday);
+        terms.addEventListener("change", () => {
+            const error = document.getElementById("termsError");
+            if (!terms.checked) {
+                termsBox.classList.add("terms-error");
+                error.textContent = "Please agree to the terms and conditions.";
+            } else {
+                termsBox.classList.remove("terms-error");
+                error.textContent = "";
+            }
+        });
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            let valid = true;
+
+            if (!firstname.value.trim()) { showError(firstname, "First name is required."); valid = false; }
+            else showSuccess(firstname);
+
+            if (!lastname.value.trim()) { showError(lastname, "Last name is required."); valid = false; }
+            else showSuccess(lastname);
+
+            if (!validateBirthday()) valid = false;
+
+            if (!username.value.trim()) { showError(username, "Username is required."); valid = false; }
+            else if (username.value.trim().length < 4) { showError(username, "Username must contain at least 4 characters."); valid = false; }
+            else showSuccess(username);
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim()) { showError(email, "Email address is required."); valid = false; }
+            else if (!emailPattern.test(email.value.trim())) { showError(email, "Enter a valid email address."); valid = false; }
+            else showSuccess(email);
+
+            const websitePattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/.*)?$/;
+            if (!website.value.trim()) { showError(website, "Website is required."); valid = false; }
+            else if (!websitePattern.test(website.value.trim())) { showError(website, "Enter a valid website address."); valid = false; }
+            else showSuccess(website);
+
+            if (!validatePassword()) valid = false;
+            if (!validateRepassword()) valid = false;
+
+            if (!terms.checked) {
+                termsBox.classList.add("terms-error");
+                document.getElementById("termsError").textContent = "Please agree to the terms and conditions.";
+                valid = false;
+            } else {
+                termsBox.classList.remove("terms-error");
+                document.getElementById("termsError").textContent = "";
+            }
+
+            if (valid) {
+                alert("Account created successfully! 🎉");
+                form.reset();
+                form.querySelectorAll("input, select").forEach(el => el.classList.remove("input-success"));
+            }
+        });
+    </script>
+</body>
+</html>

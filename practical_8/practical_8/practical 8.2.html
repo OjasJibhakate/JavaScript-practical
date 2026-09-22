@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Admission Registration Form | Symbiosis Institute of Technology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f5f7fa 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 520px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #1a365d;
+            color: white;
+            padding: 22px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .form-body {
+            padding: 28px 30px 32px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        .required {
+            color: #e53e3e;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #2d3748;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+        }
+
+        .error-border {
+            border-color: #e53e3e !important;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .radio-item,
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #4a5568;
+            cursor: pointer;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #2b6cb0;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .error-msg {
+            color: #e53e3e;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #2b6cb0;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background: #2c5282;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .btn-reset {
+            width: 100%;
+            background: #edf2f7;
+            color: #4a5568;
+            border: 1px solid #cbd5e0;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #718096;
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .success-box {
+            display: none;
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 14px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            border-left: 4px solid #38a169;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Gym Admission Registration</h1>
+        <p>Symbiosis Institute of Technology, Nagpur</p>
+    </div>
+
+    <div class="form-body">
+        <div id="successMessage" class="success-box">
+            Registration successful! Your details have been submitted.
+        </div>
+
+        <form id="gymForm" name="gymForm" onsubmit="return validateForm(event)">
+
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name"
+                       onblur="validateName()" oninput="clearError('name')">
+                <div id="nameError" class="error-msg">Please enter your name (minimum 3 characters).</div>
+            </div>
+
+            <!-- Sex -->
+            <div class="form-group">
+                <label>Sex <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="sex" value="Male" id="male"> Male
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="sex" value="Female" id="female"> Female
+                    </label>
+                </div>
+                <div id="sexError" class="error-msg">Please select your gender.</div>
+            </div>
+
+            <!-- Eye Color -->
+            <div class="form-group">
+                <label for="eyeColor">Eye Color</label>
+                <select id="eyeColor" name="eyeColor" onchange="eyeColorChanged()">
+                    <option value="">-- Select Eye Color --</option>
+                    <option value="Black">Black</option>
+                    <option value="Brown">Brown</option>
+                    <option value="Green" selected>Green</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Hazel">Hazel</option>
+                    <option value="Grey">Grey</option>
+                </select>
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="form-group">
+                <label>Check all that apply</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="traits" value="Over 6 feet tall" id="tall">
+                        Over 6 feet tall
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="traits" value="Over 200 pounds" id="heavy">
+                        Over 200 pounds
+                    </label>
+                </div>
+            </div>
+
+            <!-- Athletic Ability -->
+            <div class="form-group">
+                <label for="ability">Describe your athletic ability <span class="required">*</span></label>
+                <textarea id="ability" name="ability" 
+                          placeholder="e.g. Beginner / Intermediate / Advanced, preferred workouts..."
+                          onblur="validateAbility()" oninput="clearError('ability')"></textarea>
+                <div id="abilityError" class="error-msg">Please describe your athletic ability (at least 10 characters).</div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit">
+                Enter my information
+            </button>
+
+            <!-- Reset Button -->
+            <button type="reset" class="btn-reset" onclick="resetForm()">
+                Clear Form
+            </button>
+        </form>
+
+        <div class="footer-note">
+            All fields marked with <span class="required">*</span> are mandatory.<br>
+            Form uses JavaScript Validation & Events.
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== Main Form Validation ==========
+    function validateForm(event) {
+        event.preventDefault();
+
+        let isValid = true;
+
+        // 1. Validate Name
+        const name = document.getElementById("name").value.trim();
+        if (name.length < 3) {
+            showError("name", "Please enter your name (minimum 3 characters).");
+            isValid = false;
+        } else {
+            clearError("name");
+        }
+
+        // 2. Validate Sex (Radio buttons)
+        const sexSelected = document.querySelector('input[name="sex"]:checked');
+        if (!sexSelected) {
+            document.getElementById("sexError").style.display = "block";
+            isValid = false;
+        } else {
+            document.getElementById("sexError").style.display = "none";
+        }
+
+        // 3. Validate Athletic Ability
+        const ability = document.getElementById("ability").value.trim();
+        if (ability.length < 10) {
+            showError("ability", "Please describe your athletic ability (at least 10 characters).");
+            isValid = false;
+        } else {
+            clearError("ability");
+        }
+
+        // If form is valid
+        if (isValid) {
+            collectAndShowData();
+        } else {
+            // Focus on first error field
+            if (name.length < 3) {
+                document.getElementById("name").focus();
+            } else if (!sexSelected) {
+                document.getElementById("male").focus();
+            } else {
+                document.getElementById("ability").focus();
+            }
+        }
+
+        return false;
+    }
+
+    // ========== Show Error ==========
+    function showError(fieldId, message) {
+        const input = document.getElementById(fieldId);
+        const errorDiv = document.getElementById(fieldId + "Error");
+        input.classList.add("error-border");
+        errorDiv.innerText = message;
+        errorDiv.style.display = "block";
+    }
+
+    // ========== Clear Error ==========
+    function clearError(fieldId) {
+        const input = document.getElementById(fieldId);
+        const errorDiv = document.getElementById(fieldId + "Error");
+        if (input) input.classList.remove("error-border");
+        if (errorDiv) errorDiv.style.display = "none";
+    }
+
+    // ========== onblur - Name ==========
+    function validateName() {
+        const name = document.getElementById("name").value.trim();
+        if (name.length > 0 && name.length < 3) {
+            showError("name", "Name must be at least 3 characters.");
+        } else if (name.length >= 3) {
+            clearError("name");
+        }
+    }
+
+    // ========== onblur - Athletic Ability ==========
+    function validateAbility() {
+        const ability = document.getElementById("ability").value.trim();
+        if (ability.length > 0 && ability.length < 10) {
+            showError("ability", "Please write at least 10 characters.");
+        } else if (ability.length >= 10) {
+            clearError("ability");
+        }
+    }
+
+    // ========== onchange - Eye Color ==========
+    function eyeColorChanged() {
+        const color = document.getElementById("eyeColor").value;
+        if (color) {
+            console.log("Eye color selected:", color);
+        }
+    }
+
+    // ========== Collect Data & Show Alert ==========
+    function collectAndShowData() {
+        const name = document.getElementById("name").value.trim();
+        const sex = document.querySelector('input[name="sex"]:checked').value;
+        const eyeColor = document.getElementById("eyeColor").value || "Not specified";
+        const ability = document.getElementById("ability").value.trim();
+
+        // Collect checked checkboxes
+        const traits = [];
+        document.querySelectorAll('input[name="traits"]:checked').forEach(function(cb) {
+            traits.push(cb.value);
+        });
+        const traitsText = traits.length > 0 ? traits.join(", ") : "None";
+
+        // Create summary for Alert
+        const summary = 
+            "===== Gym Admission Registration =====\n\n" +
+            "Name            : " + name + "\n" +
+            "Sex             : " + sex + "\n" +
+            "Eye Color       : " + eyeColor + "\n" +
+            "Physical Traits : " + traitsText + "\n" +
+            "Athletic Ability: " + ability + "\n\n" +
+            "Thank you for registering!";
+
+        // Show Alert Box
+        alert(summary);
+
+        // Show success message on page
+        document.getElementById("successMessage").style.display = "block";
+    }
+
+    // ========== Reset Form ==========
+    function resetForm() {
+        clearError("name");
+        clearError("ability");
+        document.getElementById("sexError").style.display = "none";
+        document.getElementById("successMessage").style.display = "none";
+    }
+
+    // ========== onload Event ==========
+    window.onload = function() {
+        console.log("Gym Registration Form loaded successfully.");
+        document.getElementById("name").focus();
+    };
+</script>
+
+</body>
+</html>
